@@ -85,7 +85,7 @@ Edit `fewshot-cqe/configs/test_default.json` before running. Every key is explai
 | `torch_dtype` | `string` | Floating point precision. Options: `"float16"` (recommended for GPU), `"bfloat16"`, `"float32"`. |
 | `use_4bit` | `bool` | If `true`, loads the LLM in 4-bit quantization via `bitsandbytes`. Cuts VRAM usage. Requires `bitsandbytes` installed. |
 | `use_cpu_offload` | `bool` | If `true`, uses `device_map="auto"` with a memory cap. Layers that don't fit on GPU are offloaded to CPU RAM. Slower but allows running larger models on limited VRAM. |
-| `max_gpu_memory_gb` | `int` | GPU memory cap in GB used when `use_cpu_offload` is `true`. Set to slightly less than your total VRAM (e.g., `7` for an 8GB card) to leave headroom. |
+| `max_gpu_memory_gb` | `int` | GPU memory cap in GB used when `use_cpu_offload` is `true`.|
 | `max_prompt_tokens` | `int` or `null` | Maximum token length of the prompt sent to the LLM. Prompts exceeding this are **truncated** and flagged as errors. **Set to `null` to disable truncation entirely** (recommended for unlimited VRAM — see section below). |
 
 NOTE: Setting `max_gpu_memory_gb` is only for loading the model layers into memory. It does not include the active calculations of attention layers during inference, so you should set it decently lower than your total VRAM to avoid OOM errors depending on the model you are importing. Similarly, `use_cpu_offload` will offload the model weights and not the inference memory (which is temporary). 
@@ -191,9 +191,9 @@ All outputs are saved inside `output_dir/balanced/` (when `balanced: true`).
 ============================================================
   ICL (k=1, p=0.5)
 ============================================================
-    [1/500]  task_45                   code_1   | score=0.8500  P(yes)=0.8500  P(no)=0.1500 | gt=PASS pred=yes [OK] tkns=1240
-    [2/500]  task_45                   code_2   | score=0.3800  P(yes)=0.3800  P(no)=0.6200 | gt=FAIL pred=no  [OK] tkns=1265
-    [3/500]  task_45                   code_3   | score=0.9100  P(yes)=0.9100  P(no)=0.0900 | gt=FAIL pred=yes [XX] tkns=1201
+    [1/500]  task_45                   code_1   | score=0.8500  P(yes)=0.8500  P(no)=0.1500 | gt=PASS pred=yes [OK] tkns=840
+    [2/500]  task_45                   code_2   | score=0.3800  P(yes)=0.3800  P(no)=0.6200 | gt=FAIL pred=no  [OK] tkns=865
+    [3/500]  task_45                   code_3   | score=0.9100  P(yes)=0.9100  P(no)=0.0900 | gt=FAIL pred=yes [XX] tkns=801
       => [ERROR] TRUNCATED: Prompt was 8020 tokens (Limit: 4096)
 
 ==================================================
@@ -201,7 +201,7 @@ All outputs are saved inside `output_dir/balanced/` (when `balanced: true`).
 ==================================================
   k_1_p_0.5
     Global  nDCG : 0.841234
-    Local   nDCG : 0.810567
+    Local   nDCG : 0.610567
 --------------------------------------------------
 ```
 
