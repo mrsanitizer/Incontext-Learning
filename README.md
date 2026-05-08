@@ -1,15 +1,4 @@
 # Incontext Learning (ICL)
-
-This repository implements a modular **In-Context Learning (ICL)** pipeline for code correctness estimation. It uses a configurable **encoder** to find similar training examples by embedding similarity, then feeds those examples as few-shot context into an **estimator LLM** that predicts whether a given code snippet is functionally correct (`yes` / `no`).
-
-## Features
-
-- **Few-Shot ICL & Zero-Shot:** Run experiments with `k=0` (zero-shot) through `k=N` (N examples per class). All values of `k` can be evaluated in a single run.
-- **Embedding Cache:** Embeddings are cached as `.npz` files per `(encoder, dataset)` pair — encode once, reuse across all experiments.
-- **Memory Efficient:** Sequential model loading (encoder freed before LLM loads), CPU offloading, and optional 4-bit quantization for consumer hardware.
-
----
-
 ## Setup & Installation
 
 1. Create a Python virtual environment.
@@ -100,9 +89,6 @@ Any HuggingFace causal language model that supports next-token prediction works.
 | `Qwen/Qwen2.5-Coder-3B-Instruct` | ~6GB | Good balance  |
 | `Qwen/Qwen2.5-Coder-7B-Instruct` | ~14GB | Higher quality |
 | `Qwen/Qwen2.5-Coder-14B-Instruct` | ~28GB | Best quality |
-Below are not tested but should work:
-| `meta-llama/Llama-3.2-3B-Instruct` | ~6GB | Alternative family |
-| `deepseek-ai/deepseek-coder-1.3b-instruct` | ~3GB | Compact alternative |
 
 > Any instruction-tuned causal LM from HuggingFace should work. The model must output `yes` or `no` as its first token given the prompt.
 
