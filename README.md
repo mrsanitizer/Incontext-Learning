@@ -5,7 +5,6 @@ This repository implements a modular **In-Context Learning (ICL)** pipeline for 
 ## Features
 
 - **Few-Shot ICL & Zero-Shot:** Run experiments with `k=0` (zero-shot) through `k=N` (N examples per class). All values of `k` can be evaluated in a single run.
-- **Configurable Encoders:** Supports any HuggingFace `AutoModel`-compatible encoder for computing prompt/code embeddings.
 - **Embedding Cache:** Embeddings are cached as `.npz` files per `(encoder, dataset)` pair — encode once, reuse across all experiments.
 - **Memory Efficient:** Sequential model loading (encoder freed before LLM loads), CPU offloading, and optional 4-bit quantization for consumer hardware.
 
