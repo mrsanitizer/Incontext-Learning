@@ -120,8 +120,6 @@ Below are not tested but should work:
 | `microsoft/codebert-base` | 768 | BERT encoder | Default. RoBERTa-based, strong on code. |
 | `Qwen/Qwen3-Embedding-0.6B` | 1024 | Decoder-based | Larger embedding dim, newer model. |
 
-> **Important:** Switching encoders between runs invalidates old embedding caches. The pipeline auto-detects dimension mismatches and recomputes automatically.
-
 ### Logging
 
 | Key | Type | Description |
