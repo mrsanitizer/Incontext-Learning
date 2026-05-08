@@ -1,7 +1,9 @@
 useless
 baselines
+fewshot-cqe/configs/test_default.json
 fewshot-cqe/Learning_Guide
 fewshot-cqe/__pycache__
+fewshot-cqe/icl_code/__pycache__
 fewshot-cqe/output/qwen
 fewshot-cqe/scripts/*
 incontext_learning.pdf

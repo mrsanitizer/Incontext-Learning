@@ -47,19 +47,19 @@ from collections import defaultdict
 
 import pandas as pd
 
-from icl.config import load_config
-from icl.models import load_encoder, load_llm
-from icl.data import (
+from icl_code.config import load_config
+from icl_code.models import load_encoder, load_llm
+from icl_code.data import (
     load_data, split_train_dev, compute_embeddings_cached,
     transform_data, save_instances_by_result,
 )
-from icl.similarity import select_examples
-from icl.inference import format_examples, get_correctness_score, logits_to_score
-from icl.evaluation import (
+from icl_code.similarity import select_examples
+from icl_code.inference import format_examples, get_correctness_score, logits_to_score
+from icl_code.evaluation import (
     compute_ndcg, save_similarity_results, save_average_scores,
     save_ndcg_results, display_results,
 )
-from icl.logging import LiveLogger
+from icl_code.logging import LiveLogger
 
 
 # ── CLI ─────────────────────────────────────────────────────────────────
@@ -208,7 +208,7 @@ def run_test(cfg):
         # Build minimal test instances for zero-shot (no embeddings needed)
         import numpy as np
         dummy_emb = np.zeros(1)
-        from icl.data import ProblemInstance
+        from icl_code.data import ProblemInstance
         test_instances_zeroshot = []
         for _, row in testing_data.iterrows():
             for i in range(1, 11):
