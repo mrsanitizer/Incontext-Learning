@@ -1,0 +1,795 @@
+================================================================================
+INSTANCE 1: MBJP/1 / code_1
+Ground Truth: FAIL | Score: 0.226784 | P(yes): 0.109586 | P(no): 0.373634
+================================================================================
+
+You are an experienced software engineer. Your task is to check the functional correctness of code for the given problem statement. Generate 'yes' if the code is functionally correct (i.e., code meets the problem's requirements) otherwise generate 'no'. 
+Refer to the examples below on functional correctness for code evaluation.
+
+Example 1:
+ Problem Description: 
+
+def lcs_of_three(X, Y, Z, m, n, o):
+	"""
+	Write a function to find the longest common subsequence for the given three string sequence.
+	>>> lcs_of_three('AGGT12', '12TXAYB', '12XBA', 6, 7, 5)
+	2
+	>>> lcs_of_three('Reels', 'Reelsfor', 'ReelsforReels', 5, 8, 13)
+	5
+	>>> lcs_of_three('abcd1e2', 'bc12ea', 'bd1ea', 7, 6, 5)
+	3
+	"""
+
+ Code snippet: 
+ def lcs_of_three(X, Y, Z, m, n, o):
+    dp = [[[0]*(o+1) for _ in range(n+1)] for __ in range(m+1)]
+    for i in range(1, m+1):
+        for j in range(1, n+1):
+            for k in range(1, o+1):
+                if X[i-1] == Y[j-1] == Z[k-1]:
+                    dp[i][j][k] = dp[i-1][j-1][k-1] + 1
+                else:
+                    dp[i][j][k] = max(dp[i-1][j][k], dp[i][j-1][k], dp[i][j][k-1])
+    return dp[m][n][o]
+  
+ Functionally Correct: yes
+
+Example 2:
+ Problem Description: 
+
+def k_smallest_pairs(nums1, nums2, k):
+   """
+   Write a function to find k number of pairs which consist of one element from the first array and one element from the second array.
+   >>> k_smallest_pairs([1,3,7],[2,4,6],2)
+   [[1, 2], [1, 4]]
+   >>> k_smallest_pairs([1,3,7],[2,4,6],1)
+   [[1, 2]]
+   >>> k_smallest_pairs([1,3,7],[2,4,6],7)
+   [[1, 2], [1, 4], [3, 2], [1, 6], [3, 4], [3, 6], [7, 2]]
+   """
+
+ Code snippet: 
+ import heapq
+def k_smallest_pairs(nums1, nums2, k):
+    queue = [(nums1[i] + nums2[0], i, 0) for i in range(min(k, len(nums1)))]
+    heapq.heapify(queue)
+    pairs = []
+    while queue and len(pairs) < k:
+        _, i, j = heapq.heappop(queue)
+        pairs.append([nums1[i], nums2[j]])
+        if j + 1 < len(nums2):
+            heapq.heappush(queue, (nums1[i] + nums2[j + 1], i, j + 1))
+    return pairs
+  
+ Functionally Correct: yes
+
+Example 3:
+ Problem Description: 
+
+def super_seq(X, Y, m, n):
+	"""
+	Write a function to find the length of the shortest string that has both str1 and str2 as subsequences.
+	>>> super_seq("AGGTAB", "GXTXAYB", 6, 7)
+	9
+	>>> super_seq("feek", "eke", 4, 3)
+	5
+	>>> super_seq("PARRT", "RTA", 5, 3)
+	6
+	"""
+
+ Code snippet: 
+ def super_seq(X, Y, m, n):
+    dp = [list(range(n + 1))]
+    for i in range(1, m + 1):
+        prev, dp[i - 1][0] = i, i
+        for j in range(1, n + 1):
+            dp[i][j] = dp[i - 1][j - 1] if X[i - 1] == Y[j - 1] else min(dp[i - 1][j], dp[i][j - 1]) + 1
+    return dp[m][n]
+  
+ Functionally Correct: no
+
+Example 4:
+ Problem Description: 
+
+def calculate_polygons(startx, starty, endx, endy, radius):
+    """
+    Write a function to calculate a grid of hexagon coordinates where function returns a list of lists containing 6 tuples of x, y point coordinates.
+    >>> calculate_polygons(1,1, 4, 4, 3)
+    [[(-5.0, -4.196152422706632), (-5.0, -0.7320508075688767), (-2.0, 1.0), (1.0, -0.7320508075688767), (1.0, -4.196152422706632), (-2.0, -5.928203230275509), (-5.0, -4.196152422706632)], [(1.0, -4.196152422706632), (1.0, -0.7320508075688767), (4.0, 1.0), (7.0, -0.7320508075688767), (7.0, -4.196152422706632), (4.0, -5.928203230275509), (1.0, -4.196152422706632)], [(7.0, -4.196152422706632), (7.0, -0.7320508075688767), (10.0, 1.0), (13.0, -0.7320508075688767), (13.0, -4.196152422706632), (10.0, -5.928203230275509), (7.0, -4.196152422706632)], [(-2.0, 1.0000000000000004), (-2.0, 4.464101615137755), (1.0, 6.196152422706632), (4.0, 4.464101615137755), (4.0, 1.0000000000000004), (1.0, -0.7320508075688767), (-2.0, 1.0000000000000004)], [(4.0, 1.0000000000000004), (4.0, 4.464101615137755), (7.0, 6.196152422706632), (10.0, 4.464101615137755), (10.0, 1.0000000000000004), (7.0, -0.7320508075688767), (4.0, 1.0000000000000004)], [(-5.0, 6.196152422706632), (-5.0, 9.660254037844387), (-2.0, 11.392304845413264), (1.0, 9.660254037844387), (1.0, 6.196152422706632), (-2.0, 4.464101615137755), (-5.0, 6.196152422706632)], [(1.0, 6.196152422706632), (1.0, 9.660254037844387), (4.0, 11.392304845413264), (7.0, 9.660254037844387), (7.0, 6.196152422706632), (4.0, 4.464101615137755), (1.0, 6.196152422706632)], [(7.0, 6.196152422706632), (7.0, 9.660254037844387), (10.0, 11.392304845413264), (13.0, 9.660254037844387), (13.0, 6.196152422706632), (10.0, 4.464101615137755), (7.0, 6.196152422706632)], [(-2.0, 11.392304845413264), (-2.0, 14.85640646055102), (1.0, 16.588457268119896), (4.0, 14.85640646055102), (4.0, 11.392304845413264), (1.0, 9.660254037844387), (-2.0, 11.392304845413264)], [(4.0, 11.392304845413264), (4.0, 14.85640646055102), (7.0, 16.588457268119896), (10.0, 14.85640646055102), (10.0, 11.392304845413264), (7.0, 9.660254037844387), (4.0, 11.392304845413264)]]
+    >>> calculate_polygons(5,4,7,9,8)
+    [[(-11.0, -9.856406460551018), (-11.0, -0.6188021535170058), (-3.0, 4.0), (5.0, -0.6188021535170058), (5.0, -9.856406460551018), (-3.0, -14.475208614068023), (-11.0, -9.856406460551018)], [(5.0, -9.856406460551018), (5.0, -0.6188021535170058), (13.0, 4.0), (21.0, -0.6188021535170058), (21.0, -9.856406460551018), (13.0, -14.475208614068023), (5.0, -9.856406460551018)], [(21.0, -9.856406460551018), (21.0, -0.6188021535170058), (29.0, 4.0), (37.0, -0.6188021535170058), (37.0, -9.856406460551018), (29.0, -14.475208614068023), (21.0, -9.856406460551018)], [(-3.0, 4.0), (-3.0, 13.237604307034012), (5.0, 17.856406460551018), (13.0, 13.237604307034012), (13.0, 4.0), (5.0, -0.6188021535170058), (-3.0, 4.0)], [(13.0, 4.0), (13.0, 13.237604307034012), (21.0, 17.856406460551018), (29.0, 13.237604307034012), (29.0, 4.0), (21.0, -0.6188021535170058), (13.0, 4.0)], [(-11.0, 17.856406460551018), (-11.0, 27.09401076758503), (-3.0, 31.712812921102035), (5.0, 27.09401076758503), (5.0, 17.856406460551018), (-3.0, 13.237604307034012), (-11.0, 17.856406460551018)], [(5.0, 17.856406460551018), (5.0, 27.09401076758503), (13.0, 31.712812921102035), (21.0, 27.09401076758503), (21.0, 17.856406460551018), (13.0, 13.237604307034012), (5.0, 17.856406460551018)], [(21.0, 17.856406460551018), (21.0, 27.09401076758503), (29.0, 31.712812921102035), (37.0, 27.09401076758503), (37.0, 17.856406460551018), (29.0, 13.237604307034012), (21.0, 17.856406460551018)], [(-3.0, 31.712812921102035), (-3.0, 40.95041722813605), (5.0, 45.569219381653056), (13.0, 40.95041722813605), (13.0, 31.712812921102035), (5.0, 27.09401076758503), (-3.0, 31.712812921102035)], [(13.0, 31.712812921102035), (13.0, 40.95041722813605), (21.0, 45.569219381653056), (29.0, 40.95041722813605), (29.0, 31.712812921102035), (21.0, 27.09401076758503), (13.0, 31.712812921102035)]]
+    >>> calculate_polygons(9,6,4,3,2)
+    [[(5.0, 2.5358983848622456), (5.0, 4.8452994616207485), (7.0, 6.0), (9.0, 4.8452994616207485), (9.0, 2.5358983848622456), (7.0, 1.3811978464829942), (5.0, 2.5358983848622456)], [(7.0, 6.0), (7.0, 8.309401076758503), (9.0, 9.464101615137753), (11.0, 8.309401076758503), (11.0, 6.0), (9.0, 4.8452994616207485), (7.0, 6.0)]]
+    """
+
+ Code snippet: 
+ import math
+def calculate_polygons(startx, starty, endx, endy, radius):
+    hex_height = radius * 1.7320508075688772
+    hex_width = 2 * radius
+    polygons = []
+    for y in range(starty, endy + 1):
+        for x in range(startx, endx + 1):
+            x_offset = hex_width / 2 if y % 2 else 0
+            vertices = [(x * hex_width + x_offset + radius * math.cos(i * math.pi / 3), y * hex_height + radius * math.sin(i * math.pi / 3)) for i in range(6)]
+            polygons.append(vertices + [vertices[0]])
+    return polygons
+  
+ Functionally Correct: no
+
+
+
+Evaluate the following code snippet.
+
+Problem Description: 
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+import java.math.*;
+
+
+class MinCost {
+    /**
+     * * Write a function to find the minimum cost path to reach (m, n) from (0, 0) for the given cost matrix cost[][] and a position (m, n) in cost[][].
+     *
+     * > minCost([[1, 2, 3], [4, 8, 2], [1, 5, 3]], 2, 2)
+     * 8
+     * > minCost([[2, 3, 4], [5, 9, 3], [2, 6, 4]], 2, 2)
+     * 12
+     * > minCost([[3, 4, 5], [6, 10, 4], [3, 7, 5]], 2, 2)
+     * 16
+     */
+    public static int minCost(List<List<Integer>> cost, int m, int n) {
+
+
+Code Snippet: 
+int[][] dp = new int[m + 1][n + 1];
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) + cost.get(i).get(j);
+            }
+        }
+        return dp[m][n];
+    }
+}
+
+Functionally Correct:
+
+
+
+================================================================================
+INSTANCE 2: MBJP/1 / code_2
+Ground Truth: FAIL | Score: 0.226784 | P(yes): 0.109586 | P(no): 0.373634
+================================================================================
+
+You are an experienced software engineer. Your task is to check the functional correctness of code for the given problem statement. Generate 'yes' if the code is functionally correct (i.e., code meets the problem's requirements) otherwise generate 'no'. 
+Refer to the examples below on functional correctness for code evaluation.
+
+Example 1:
+ Problem Description: 
+
+def lcs_of_three(X, Y, Z, m, n, o):
+	"""
+	Write a function to find the longest common subsequence for the given three string sequence.
+	>>> lcs_of_three('AGGT12', '12TXAYB', '12XBA', 6, 7, 5)
+	2
+	>>> lcs_of_three('Reels', 'Reelsfor', 'ReelsforReels', 5, 8, 13)
+	5
+	>>> lcs_of_three('abcd1e2', 'bc12ea', 'bd1ea', 7, 6, 5)
+	3
+	"""
+
+ Code snippet: 
+ def lcs_of_three(X, Y, Z, m, n, o):
+    dp = [[[0]*(o+1) for _ in range(n+1)] for __ in range(m+1)]
+    for i in range(1, m+1):
+        for j in range(1, n+1):
+            for k in range(1, o+1):
+                if X[i-1] == Y[j-1] == Z[k-1]:
+                    dp[i][j][k] = dp[i-1][j-1][k-1] + 1
+                else:
+                    dp[i][j][k] = max(dp[i-1][j][k], dp[i][j-1][k], dp[i][j][k-1])
+    return dp[m][n][o]
+  
+ Functionally Correct: yes
+
+Example 2:
+ Problem Description: 
+
+def k_smallest_pairs(nums1, nums2, k):
+   """
+   Write a function to find k number of pairs which consist of one element from the first array and one element from the second array.
+   >>> k_smallest_pairs([1,3,7],[2,4,6],2)
+   [[1, 2], [1, 4]]
+   >>> k_smallest_pairs([1,3,7],[2,4,6],1)
+   [[1, 2]]
+   >>> k_smallest_pairs([1,3,7],[2,4,6],7)
+   [[1, 2], [1, 4], [3, 2], [1, 6], [3, 4], [3, 6], [7, 2]]
+   """
+
+ Code snippet: 
+ import heapq
+def k_smallest_pairs(nums1, nums2, k):
+    queue = [(nums1[i] + nums2[0], i, 0) for i in range(min(k, len(nums1)))]
+    heapq.heapify(queue)
+    pairs = []
+    while queue and len(pairs) < k:
+        _, i, j = heapq.heappop(queue)
+        pairs.append([nums1[i], nums2[j]])
+        if j + 1 < len(nums2):
+            heapq.heappush(queue, (nums1[i] + nums2[j + 1], i, j + 1))
+    return pairs
+  
+ Functionally Correct: yes
+
+Example 3:
+ Problem Description: 
+
+def super_seq(X, Y, m, n):
+	"""
+	Write a function to find the length of the shortest string that has both str1 and str2 as subsequences.
+	>>> super_seq("AGGTAB", "GXTXAYB", 6, 7)
+	9
+	>>> super_seq("feek", "eke", 4, 3)
+	5
+	>>> super_seq("PARRT", "RTA", 5, 3)
+	6
+	"""
+
+ Code snippet: 
+ def super_seq(X, Y, m, n):
+    dp = [list(range(n + 1))]
+    for i in range(1, m + 1):
+        prev, dp[i - 1][0] = i, i
+        for j in range(1, n + 1):
+            dp[i][j] = dp[i - 1][j - 1] if X[i - 1] == Y[j - 1] else min(dp[i - 1][j], dp[i][j - 1]) + 1
+    return dp[m][n]
+  
+ Functionally Correct: no
+
+Example 4:
+ Problem Description: 
+
+def calculate_polygons(startx, starty, endx, endy, radius):
+    """
+    Write a function to calculate a grid of hexagon coordinates where function returns a list of lists containing 6 tuples of x, y point coordinates.
+    >>> calculate_polygons(1,1, 4, 4, 3)
+    [[(-5.0, -4.196152422706632), (-5.0, -0.7320508075688767), (-2.0, 1.0), (1.0, -0.7320508075688767), (1.0, -4.196152422706632), (-2.0, -5.928203230275509), (-5.0, -4.196152422706632)], [(1.0, -4.196152422706632), (1.0, -0.7320508075688767), (4.0, 1.0), (7.0, -0.7320508075688767), (7.0, -4.196152422706632), (4.0, -5.928203230275509), (1.0, -4.196152422706632)], [(7.0, -4.196152422706632), (7.0, -0.7320508075688767), (10.0, 1.0), (13.0, -0.7320508075688767), (13.0, -4.196152422706632), (10.0, -5.928203230275509), (7.0, -4.196152422706632)], [(-2.0, 1.0000000000000004), (-2.0, 4.464101615137755), (1.0, 6.196152422706632), (4.0, 4.464101615137755), (4.0, 1.0000000000000004), (1.0, -0.7320508075688767), (-2.0, 1.0000000000000004)], [(4.0, 1.0000000000000004), (4.0, 4.464101615137755), (7.0, 6.196152422706632), (10.0, 4.464101615137755), (10.0, 1.0000000000000004), (7.0, -0.7320508075688767), (4.0, 1.0000000000000004)], [(-5.0, 6.196152422706632), (-5.0, 9.660254037844387), (-2.0, 11.392304845413264), (1.0, 9.660254037844387), (1.0, 6.196152422706632), (-2.0, 4.464101615137755), (-5.0, 6.196152422706632)], [(1.0, 6.196152422706632), (1.0, 9.660254037844387), (4.0, 11.392304845413264), (7.0, 9.660254037844387), (7.0, 6.196152422706632), (4.0, 4.464101615137755), (1.0, 6.196152422706632)], [(7.0, 6.196152422706632), (7.0, 9.660254037844387), (10.0, 11.392304845413264), (13.0, 9.660254037844387), (13.0, 6.196152422706632), (10.0, 4.464101615137755), (7.0, 6.196152422706632)], [(-2.0, 11.392304845413264), (-2.0, 14.85640646055102), (1.0, 16.588457268119896), (4.0, 14.85640646055102), (4.0, 11.392304845413264), (1.0, 9.660254037844387), (-2.0, 11.392304845413264)], [(4.0, 11.392304845413264), (4.0, 14.85640646055102), (7.0, 16.588457268119896), (10.0, 14.85640646055102), (10.0, 11.392304845413264), (7.0, 9.660254037844387), (4.0, 11.392304845413264)]]
+    >>> calculate_polygons(5,4,7,9,8)
+    [[(-11.0, -9.856406460551018), (-11.0, -0.6188021535170058), (-3.0, 4.0), (5.0, -0.6188021535170058), (5.0, -9.856406460551018), (-3.0, -14.475208614068023), (-11.0, -9.856406460551018)], [(5.0, -9.856406460551018), (5.0, -0.6188021535170058), (13.0, 4.0), (21.0, -0.6188021535170058), (21.0, -9.856406460551018), (13.0, -14.475208614068023), (5.0, -9.856406460551018)], [(21.0, -9.856406460551018), (21.0, -0.6188021535170058), (29.0, 4.0), (37.0, -0.6188021535170058), (37.0, -9.856406460551018), (29.0, -14.475208614068023), (21.0, -9.856406460551018)], [(-3.0, 4.0), (-3.0, 13.237604307034012), (5.0, 17.856406460551018), (13.0, 13.237604307034012), (13.0, 4.0), (5.0, -0.6188021535170058), (-3.0, 4.0)], [(13.0, 4.0), (13.0, 13.237604307034012), (21.0, 17.856406460551018), (29.0, 13.237604307034012), (29.0, 4.0), (21.0, -0.6188021535170058), (13.0, 4.0)], [(-11.0, 17.856406460551018), (-11.0, 27.09401076758503), (-3.0, 31.712812921102035), (5.0, 27.09401076758503), (5.0, 17.856406460551018), (-3.0, 13.237604307034012), (-11.0, 17.856406460551018)], [(5.0, 17.856406460551018), (5.0, 27.09401076758503), (13.0, 31.712812921102035), (21.0, 27.09401076758503), (21.0, 17.856406460551018), (13.0, 13.237604307034012), (5.0, 17.856406460551018)], [(21.0, 17.856406460551018), (21.0, 27.09401076758503), (29.0, 31.712812921102035), (37.0, 27.09401076758503), (37.0, 17.856406460551018), (29.0, 13.237604307034012), (21.0, 17.856406460551018)], [(-3.0, 31.712812921102035), (-3.0, 40.95041722813605), (5.0, 45.569219381653056), (13.0, 40.95041722813605), (13.0, 31.712812921102035), (5.0, 27.09401076758503), (-3.0, 31.712812921102035)], [(13.0, 31.712812921102035), (13.0, 40.95041722813605), (21.0, 45.569219381653056), (29.0, 40.95041722813605), (29.0, 31.712812921102035), (21.0, 27.09401076758503), (13.0, 31.712812921102035)]]
+    >>> calculate_polygons(9,6,4,3,2)
+    [[(5.0, 2.5358983848622456), (5.0, 4.8452994616207485), (7.0, 6.0), (9.0, 4.8452994616207485), (9.0, 2.5358983848622456), (7.0, 1.3811978464829942), (5.0, 2.5358983848622456)], [(7.0, 6.0), (7.0, 8.309401076758503), (9.0, 9.464101615137753), (11.0, 8.309401076758503), (11.0, 6.0), (9.0, 4.8452994616207485), (7.0, 6.0)]]
+    """
+
+ Code snippet: 
+ import math
+def calculate_polygons(startx, starty, endx, endy, radius):
+    hex_height = radius * 1.7320508075688772
+    hex_width = 2 * radius
+    polygons = []
+    for y in range(starty, endy + 1):
+        for x in range(startx, endx + 1):
+            x_offset = hex_width / 2 if y % 2 else 0
+            vertices = [(x * hex_width + x_offset + radius * math.cos(i * math.pi / 3), y * hex_height + radius * math.sin(i * math.pi / 3)) for i in range(6)]
+            polygons.append(vertices + [vertices[0]])
+    return polygons
+  
+ Functionally Correct: no
+
+
+
+Evaluate the following code snippet.
+
+Problem Description: 
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+import java.math.*;
+
+
+class MinCost {
+    /**
+     * * Write a function to find the minimum cost path to reach (m, n) from (0, 0) for the given cost matrix cost[][] and a position (m, n) in cost[][].
+     *
+     * > minCost([[1, 2, 3], [4, 8, 2], [1, 5, 3]], 2, 2)
+     * 8
+     * > minCost([[2, 3, 4], [5, 9, 3], [2, 6, 4]], 2, 2)
+     * 12
+     * > minCost([[3, 4, 5], [6, 10, 4], [3, 7, 5]], 2, 2)
+     * 16
+     */
+    public static int minCost(List<List<Integer>> cost, int m, int n) {
+
+
+Code Snippet: 
+int[][] dp = new int[m + 1][n + 1];
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) + cost.get(i).get(j);
+            }
+        }
+        return dp[m][n];
+    }
+}
+
+Functionally Correct:
+
+
+
+================================================================================
+INSTANCE 3: MBJP/1 / code_3
+Ground Truth: FAIL | Score: 0.226784 | P(yes): 0.109586 | P(no): 0.373634
+================================================================================
+
+You are an experienced software engineer. Your task is to check the functional correctness of code for the given problem statement. Generate 'yes' if the code is functionally correct (i.e., code meets the problem's requirements) otherwise generate 'no'. 
+Refer to the examples below on functional correctness for code evaluation.
+
+Example 1:
+ Problem Description: 
+
+def lcs_of_three(X, Y, Z, m, n, o):
+	"""
+	Write a function to find the longest common subsequence for the given three string sequence.
+	>>> lcs_of_three('AGGT12', '12TXAYB', '12XBA', 6, 7, 5)
+	2
+	>>> lcs_of_three('Reels', 'Reelsfor', 'ReelsforReels', 5, 8, 13)
+	5
+	>>> lcs_of_three('abcd1e2', 'bc12ea', 'bd1ea', 7, 6, 5)
+	3
+	"""
+
+ Code snippet: 
+ def lcs_of_three(X, Y, Z, m, n, o):
+    dp = [[[0]*(o+1) for _ in range(n+1)] for __ in range(m+1)]
+    for i in range(1, m+1):
+        for j in range(1, n+1):
+            for k in range(1, o+1):
+                if X[i-1] == Y[j-1] == Z[k-1]:
+                    dp[i][j][k] = dp[i-1][j-1][k-1] + 1
+                else:
+                    dp[i][j][k] = max(dp[i-1][j][k], dp[i][j-1][k], dp[i][j][k-1])
+    return dp[m][n][o]
+  
+ Functionally Correct: yes
+
+Example 2:
+ Problem Description: 
+
+def k_smallest_pairs(nums1, nums2, k):
+   """
+   Write a function to find k number of pairs which consist of one element from the first array and one element from the second array.
+   >>> k_smallest_pairs([1,3,7],[2,4,6],2)
+   [[1, 2], [1, 4]]
+   >>> k_smallest_pairs([1,3,7],[2,4,6],1)
+   [[1, 2]]
+   >>> k_smallest_pairs([1,3,7],[2,4,6],7)
+   [[1, 2], [1, 4], [3, 2], [1, 6], [3, 4], [3, 6], [7, 2]]
+   """
+
+ Code snippet: 
+ import heapq
+def k_smallest_pairs(nums1, nums2, k):
+    queue = [(nums1[i] + nums2[0], i, 0) for i in range(min(k, len(nums1)))]
+    heapq.heapify(queue)
+    pairs = []
+    while queue and len(pairs) < k:
+        _, i, j = heapq.heappop(queue)
+        pairs.append([nums1[i], nums2[j]])
+        if j + 1 < len(nums2):
+            heapq.heappush(queue, (nums1[i] + nums2[j + 1], i, j + 1))
+    return pairs
+  
+ Functionally Correct: yes
+
+Example 3:
+ Problem Description: 
+
+def super_seq(X, Y, m, n):
+	"""
+	Write a function to find the length of the shortest string that has both str1 and str2 as subsequences.
+	>>> super_seq("AGGTAB", "GXTXAYB", 6, 7)
+	9
+	>>> super_seq("feek", "eke", 4, 3)
+	5
+	>>> super_seq("PARRT", "RTA", 5, 3)
+	6
+	"""
+
+ Code snippet: 
+ def super_seq(X, Y, m, n):
+    dp = [list(range(n + 1))]
+    for i in range(1, m + 1):
+        prev, dp[i - 1][0] = i, i
+        for j in range(1, n + 1):
+            dp[i][j] = dp[i - 1][j - 1] if X[i - 1] == Y[j - 1] else min(dp[i - 1][j], dp[i][j - 1]) + 1
+    return dp[m][n]
+  
+ Functionally Correct: no
+
+Example 4:
+ Problem Description: 
+
+def calculate_polygons(startx, starty, endx, endy, radius):
+    """
+    Write a function to calculate a grid of hexagon coordinates where function returns a list of lists containing 6 tuples of x, y point coordinates.
+    >>> calculate_polygons(1,1, 4, 4, 3)
+    [[(-5.0, -4.196152422706632), (-5.0, -0.7320508075688767), (-2.0, 1.0), (1.0, -0.7320508075688767), (1.0, -4.196152422706632), (-2.0, -5.928203230275509), (-5.0, -4.196152422706632)], [(1.0, -4.196152422706632), (1.0, -0.7320508075688767), (4.0, 1.0), (7.0, -0.7320508075688767), (7.0, -4.196152422706632), (4.0, -5.928203230275509), (1.0, -4.196152422706632)], [(7.0, -4.196152422706632), (7.0, -0.7320508075688767), (10.0, 1.0), (13.0, -0.7320508075688767), (13.0, -4.196152422706632), (10.0, -5.928203230275509), (7.0, -4.196152422706632)], [(-2.0, 1.0000000000000004), (-2.0, 4.464101615137755), (1.0, 6.196152422706632), (4.0, 4.464101615137755), (4.0, 1.0000000000000004), (1.0, -0.7320508075688767), (-2.0, 1.0000000000000004)], [(4.0, 1.0000000000000004), (4.0, 4.464101615137755), (7.0, 6.196152422706632), (10.0, 4.464101615137755), (10.0, 1.0000000000000004), (7.0, -0.7320508075688767), (4.0, 1.0000000000000004)], [(-5.0, 6.196152422706632), (-5.0, 9.660254037844387), (-2.0, 11.392304845413264), (1.0, 9.660254037844387), (1.0, 6.196152422706632), (-2.0, 4.464101615137755), (-5.0, 6.196152422706632)], [(1.0, 6.196152422706632), (1.0, 9.660254037844387), (4.0, 11.392304845413264), (7.0, 9.660254037844387), (7.0, 6.196152422706632), (4.0, 4.464101615137755), (1.0, 6.196152422706632)], [(7.0, 6.196152422706632), (7.0, 9.660254037844387), (10.0, 11.392304845413264), (13.0, 9.660254037844387), (13.0, 6.196152422706632), (10.0, 4.464101615137755), (7.0, 6.196152422706632)], [(-2.0, 11.392304845413264), (-2.0, 14.85640646055102), (1.0, 16.588457268119896), (4.0, 14.85640646055102), (4.0, 11.392304845413264), (1.0, 9.660254037844387), (-2.0, 11.392304845413264)], [(4.0, 11.392304845413264), (4.0, 14.85640646055102), (7.0, 16.588457268119896), (10.0, 14.85640646055102), (10.0, 11.392304845413264), (7.0, 9.660254037844387), (4.0, 11.392304845413264)]]
+    >>> calculate_polygons(5,4,7,9,8)
+    [[(-11.0, -9.856406460551018), (-11.0, -0.6188021535170058), (-3.0, 4.0), (5.0, -0.6188021535170058), (5.0, -9.856406460551018), (-3.0, -14.475208614068023), (-11.0, -9.856406460551018)], [(5.0, -9.856406460551018), (5.0, -0.6188021535170058), (13.0, 4.0), (21.0, -0.6188021535170058), (21.0, -9.856406460551018), (13.0, -14.475208614068023), (5.0, -9.856406460551018)], [(21.0, -9.856406460551018), (21.0, -0.6188021535170058), (29.0, 4.0), (37.0, -0.6188021535170058), (37.0, -9.856406460551018), (29.0, -14.475208614068023), (21.0, -9.856406460551018)], [(-3.0, 4.0), (-3.0, 13.237604307034012), (5.0, 17.856406460551018), (13.0, 13.237604307034012), (13.0, 4.0), (5.0, -0.6188021535170058), (-3.0, 4.0)], [(13.0, 4.0), (13.0, 13.237604307034012), (21.0, 17.856406460551018), (29.0, 13.237604307034012), (29.0, 4.0), (21.0, -0.6188021535170058), (13.0, 4.0)], [(-11.0, 17.856406460551018), (-11.0, 27.09401076758503), (-3.0, 31.712812921102035), (5.0, 27.09401076758503), (5.0, 17.856406460551018), (-3.0, 13.237604307034012), (-11.0, 17.856406460551018)], [(5.0, 17.856406460551018), (5.0, 27.09401076758503), (13.0, 31.712812921102035), (21.0, 27.09401076758503), (21.0, 17.856406460551018), (13.0, 13.237604307034012), (5.0, 17.856406460551018)], [(21.0, 17.856406460551018), (21.0, 27.09401076758503), (29.0, 31.712812921102035), (37.0, 27.09401076758503), (37.0, 17.856406460551018), (29.0, 13.237604307034012), (21.0, 17.856406460551018)], [(-3.0, 31.712812921102035), (-3.0, 40.95041722813605), (5.0, 45.569219381653056), (13.0, 40.95041722813605), (13.0, 31.712812921102035), (5.0, 27.09401076758503), (-3.0, 31.712812921102035)], [(13.0, 31.712812921102035), (13.0, 40.95041722813605), (21.0, 45.569219381653056), (29.0, 40.95041722813605), (29.0, 31.712812921102035), (21.0, 27.09401076758503), (13.0, 31.712812921102035)]]
+    >>> calculate_polygons(9,6,4,3,2)
+    [[(5.0, 2.5358983848622456), (5.0, 4.8452994616207485), (7.0, 6.0), (9.0, 4.8452994616207485), (9.0, 2.5358983848622456), (7.0, 1.3811978464829942), (5.0, 2.5358983848622456)], [(7.0, 6.0), (7.0, 8.309401076758503), (9.0, 9.464101615137753), (11.0, 8.309401076758503), (11.0, 6.0), (9.0, 4.8452994616207485), (7.0, 6.0)]]
+    """
+
+ Code snippet: 
+ import math
+def calculate_polygons(startx, starty, endx, endy, radius):
+    hex_height = radius * 1.7320508075688772
+    hex_width = 2 * radius
+    polygons = []
+    for y in range(starty, endy + 1):
+        for x in range(startx, endx + 1):
+            x_offset = hex_width / 2 if y % 2 else 0
+            vertices = [(x * hex_width + x_offset + radius * math.cos(i * math.pi / 3), y * hex_height + radius * math.sin(i * math.pi / 3)) for i in range(6)]
+            polygons.append(vertices + [vertices[0]])
+    return polygons
+  
+ Functionally Correct: no
+
+
+
+Evaluate the following code snippet.
+
+Problem Description: 
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+import java.math.*;
+
+
+class MinCost {
+    /**
+     * * Write a function to find the minimum cost path to reach (m, n) from (0, 0) for the given cost matrix cost[][] and a position (m, n) in cost[][].
+     *
+     * > minCost([[1, 2, 3], [4, 8, 2], [1, 5, 3]], 2, 2)
+     * 8
+     * > minCost([[2, 3, 4], [5, 9, 3], [2, 6, 4]], 2, 2)
+     * 12
+     * > minCost([[3, 4, 5], [6, 10, 4], [3, 7, 5]], 2, 2)
+     * 16
+     */
+    public static int minCost(List<List<Integer>> cost, int m, int n) {
+
+
+Code Snippet: 
+int[][] dp = new int[m + 1][n + 1];
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) + cost.get(i).get(j);
+            }
+        }
+        return dp[m][n];
+    }
+}
+
+Functionally Correct:
+
+
+
+================================================================================
+INSTANCE 4: MBJP/1 / code_4
+Ground Truth: FAIL | Score: 0.226784 | P(yes): 0.109586 | P(no): 0.373634
+================================================================================
+
+You are an experienced software engineer. Your task is to check the functional correctness of code for the given problem statement. Generate 'yes' if the code is functionally correct (i.e., code meets the problem's requirements) otherwise generate 'no'. 
+Refer to the examples below on functional correctness for code evaluation.
+
+Example 1:
+ Problem Description: 
+
+def lcs_of_three(X, Y, Z, m, n, o):
+	"""
+	Write a function to find the longest common subsequence for the given three string sequence.
+	>>> lcs_of_three('AGGT12', '12TXAYB', '12XBA', 6, 7, 5)
+	2
+	>>> lcs_of_three('Reels', 'Reelsfor', 'ReelsforReels', 5, 8, 13)
+	5
+	>>> lcs_of_three('abcd1e2', 'bc12ea', 'bd1ea', 7, 6, 5)
+	3
+	"""
+
+ Code snippet: 
+ def lcs_of_three(X, Y, Z, m, n, o):
+    dp = [[[0]*(o+1) for _ in range(n+1)] for __ in range(m+1)]
+    for i in range(1, m+1):
+        for j in range(1, n+1):
+            for k in range(1, o+1):
+                if X[i-1] == Y[j-1] == Z[k-1]:
+                    dp[i][j][k] = dp[i-1][j-1][k-1] + 1
+                else:
+                    dp[i][j][k] = max(dp[i-1][j][k], dp[i][j-1][k], dp[i][j][k-1])
+    return dp[m][n][o]
+  
+ Functionally Correct: yes
+
+Example 2:
+ Problem Description: 
+
+def k_smallest_pairs(nums1, nums2, k):
+   """
+   Write a function to find k number of pairs which consist of one element from the first array and one element from the second array.
+   >>> k_smallest_pairs([1,3,7],[2,4,6],2)
+   [[1, 2], [1, 4]]
+   >>> k_smallest_pairs([1,3,7],[2,4,6],1)
+   [[1, 2]]
+   >>> k_smallest_pairs([1,3,7],[2,4,6],7)
+   [[1, 2], [1, 4], [3, 2], [1, 6], [3, 4], [3, 6], [7, 2]]
+   """
+
+ Code snippet: 
+ import heapq
+def k_smallest_pairs(nums1, nums2, k):
+    queue = [(nums1[i] + nums2[0], i, 0) for i in range(min(k, len(nums1)))]
+    heapq.heapify(queue)
+    pairs = []
+    while queue and len(pairs) < k:
+        _, i, j = heapq.heappop(queue)
+        pairs.append([nums1[i], nums2[j]])
+        if j + 1 < len(nums2):
+            heapq.heappush(queue, (nums1[i] + nums2[j + 1], i, j + 1))
+    return pairs
+  
+ Functionally Correct: yes
+
+Example 3:
+ Problem Description: 
+
+def super_seq(X, Y, m, n):
+	"""
+	Write a function to find the length of the shortest string that has both str1 and str2 as subsequences.
+	>>> super_seq("AGGTAB", "GXTXAYB", 6, 7)
+	9
+	>>> super_seq("feek", "eke", 4, 3)
+	5
+	>>> super_seq("PARRT", "RTA", 5, 3)
+	6
+	"""
+
+ Code snippet: 
+ def super_seq(X, Y, m, n):
+    dp = [list(range(n + 1))]
+    for i in range(1, m + 1):
+        prev, dp[i - 1][0] = i, i
+        for j in range(1, n + 1):
+            dp[i][j] = dp[i - 1][j - 1] if X[i - 1] == Y[j - 1] else min(dp[i - 1][j], dp[i][j - 1]) + 1
+    return dp[m][n]
+  
+ Functionally Correct: no
+
+Example 4:
+ Problem Description: 
+
+def calculate_polygons(startx, starty, endx, endy, radius):
+    """
+    Write a function to calculate a grid of hexagon coordinates where function returns a list of lists containing 6 tuples of x, y point coordinates.
+    >>> calculate_polygons(1,1, 4, 4, 3)
+    [[(-5.0, -4.196152422706632), (-5.0, -0.7320508075688767), (-2.0, 1.0), (1.0, -0.7320508075688767), (1.0, -4.196152422706632), (-2.0, -5.928203230275509), (-5.0, -4.196152422706632)], [(1.0, -4.196152422706632), (1.0, -0.7320508075688767), (4.0, 1.0), (7.0, -0.7320508075688767), (7.0, -4.196152422706632), (4.0, -5.928203230275509), (1.0, -4.196152422706632)], [(7.0, -4.196152422706632), (7.0, -0.7320508075688767), (10.0, 1.0), (13.0, -0.7320508075688767), (13.0, -4.196152422706632), (10.0, -5.928203230275509), (7.0, -4.196152422706632)], [(-2.0, 1.0000000000000004), (-2.0, 4.464101615137755), (1.0, 6.196152422706632), (4.0, 4.464101615137755), (4.0, 1.0000000000000004), (1.0, -0.7320508075688767), (-2.0, 1.0000000000000004)], [(4.0, 1.0000000000000004), (4.0, 4.464101615137755), (7.0, 6.196152422706632), (10.0, 4.464101615137755), (10.0, 1.0000000000000004), (7.0, -0.7320508075688767), (4.0, 1.0000000000000004)], [(-5.0, 6.196152422706632), (-5.0, 9.660254037844387), (-2.0, 11.392304845413264), (1.0, 9.660254037844387), (1.0, 6.196152422706632), (-2.0, 4.464101615137755), (-5.0, 6.196152422706632)], [(1.0, 6.196152422706632), (1.0, 9.660254037844387), (4.0, 11.392304845413264), (7.0, 9.660254037844387), (7.0, 6.196152422706632), (4.0, 4.464101615137755), (1.0, 6.196152422706632)], [(7.0, 6.196152422706632), (7.0, 9.660254037844387), (10.0, 11.392304845413264), (13.0, 9.660254037844387), (13.0, 6.196152422706632), (10.0, 4.464101615137755), (7.0, 6.196152422706632)], [(-2.0, 11.392304845413264), (-2.0, 14.85640646055102), (1.0, 16.588457268119896), (4.0, 14.85640646055102), (4.0, 11.392304845413264), (1.0, 9.660254037844387), (-2.0, 11.392304845413264)], [(4.0, 11.392304845413264), (4.0, 14.85640646055102), (7.0, 16.588457268119896), (10.0, 14.85640646055102), (10.0, 11.392304845413264), (7.0, 9.660254037844387), (4.0, 11.392304845413264)]]
+    >>> calculate_polygons(5,4,7,9,8)
+    [[(-11.0, -9.856406460551018), (-11.0, -0.6188021535170058), (-3.0, 4.0), (5.0, -0.6188021535170058), (5.0, -9.856406460551018), (-3.0, -14.475208614068023), (-11.0, -9.856406460551018)], [(5.0, -9.856406460551018), (5.0, -0.6188021535170058), (13.0, 4.0), (21.0, -0.6188021535170058), (21.0, -9.856406460551018), (13.0, -14.475208614068023), (5.0, -9.856406460551018)], [(21.0, -9.856406460551018), (21.0, -0.6188021535170058), (29.0, 4.0), (37.0, -0.6188021535170058), (37.0, -9.856406460551018), (29.0, -14.475208614068023), (21.0, -9.856406460551018)], [(-3.0, 4.0), (-3.0, 13.237604307034012), (5.0, 17.856406460551018), (13.0, 13.237604307034012), (13.0, 4.0), (5.0, -0.6188021535170058), (-3.0, 4.0)], [(13.0, 4.0), (13.0, 13.237604307034012), (21.0, 17.856406460551018), (29.0, 13.237604307034012), (29.0, 4.0), (21.0, -0.6188021535170058), (13.0, 4.0)], [(-11.0, 17.856406460551018), (-11.0, 27.09401076758503), (-3.0, 31.712812921102035), (5.0, 27.09401076758503), (5.0, 17.856406460551018), (-3.0, 13.237604307034012), (-11.0, 17.856406460551018)], [(5.0, 17.856406460551018), (5.0, 27.09401076758503), (13.0, 31.712812921102035), (21.0, 27.09401076758503), (21.0, 17.856406460551018), (13.0, 13.237604307034012), (5.0, 17.856406460551018)], [(21.0, 17.856406460551018), (21.0, 27.09401076758503), (29.0, 31.712812921102035), (37.0, 27.09401076758503), (37.0, 17.856406460551018), (29.0, 13.237604307034012), (21.0, 17.856406460551018)], [(-3.0, 31.712812921102035), (-3.0, 40.95041722813605), (5.0, 45.569219381653056), (13.0, 40.95041722813605), (13.0, 31.712812921102035), (5.0, 27.09401076758503), (-3.0, 31.712812921102035)], [(13.0, 31.712812921102035), (13.0, 40.95041722813605), (21.0, 45.569219381653056), (29.0, 40.95041722813605), (29.0, 31.712812921102035), (21.0, 27.09401076758503), (13.0, 31.712812921102035)]]
+    >>> calculate_polygons(9,6,4,3,2)
+    [[(5.0, 2.5358983848622456), (5.0, 4.8452994616207485), (7.0, 6.0), (9.0, 4.8452994616207485), (9.0, 2.5358983848622456), (7.0, 1.3811978464829942), (5.0, 2.5358983848622456)], [(7.0, 6.0), (7.0, 8.309401076758503), (9.0, 9.464101615137753), (11.0, 8.309401076758503), (11.0, 6.0), (9.0, 4.8452994616207485), (7.0, 6.0)]]
+    """
+
+ Code snippet: 
+ import math
+def calculate_polygons(startx, starty, endx, endy, radius):
+    hex_height = radius * 1.7320508075688772
+    hex_width = 2 * radius
+    polygons = []
+    for y in range(starty, endy + 1):
+        for x in range(startx, endx + 1):
+            x_offset = hex_width / 2 if y % 2 else 0
+            vertices = [(x * hex_width + x_offset + radius * math.cos(i * math.pi / 3), y * hex_height + radius * math.sin(i * math.pi / 3)) for i in range(6)]
+            polygons.append(vertices + [vertices[0]])
+    return polygons
+  
+ Functionally Correct: no
+
+
+
+Evaluate the following code snippet.
+
+Problem Description: 
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+import java.math.*;
+
+
+class MinCost {
+    /**
+     * * Write a function to find the minimum cost path to reach (m, n) from (0, 0) for the given cost matrix cost[][] and a position (m, n) in cost[][].
+     *
+     * > minCost([[1, 2, 3], [4, 8, 2], [1, 5, 3]], 2, 2)
+     * 8
+     * > minCost([[2, 3, 4], [5, 9, 3], [2, 6, 4]], 2, 2)
+     * 12
+     * > minCost([[3, 4, 5], [6, 10, 4], [3, 7, 5]], 2, 2)
+     * 16
+     */
+    public static int minCost(List<List<Integer>> cost, int m, int n) {
+
+
+Code Snippet: 
+int[][] dp = new int[m + 1][n + 1];
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) + cost.get(i).get(j);
+            }
+        }
+        return dp[m][n];
+    }
+}
+
+Functionally Correct:
+
+
+
+================================================================================
+INSTANCE 5: MBJP/1 / code_5
+Ground Truth: FAIL | Score: 0.226784 | P(yes): 0.109586 | P(no): 0.373634
+================================================================================
+
+You are an experienced software engineer. Your task is to check the functional correctness of code for the given problem statement. Generate 'yes' if the code is functionally correct (i.e., code meets the problem's requirements) otherwise generate 'no'. 
+Refer to the examples below on functional correctness for code evaluation.
+
+Example 1:
+ Problem Description: 
+
+def lcs_of_three(X, Y, Z, m, n, o):
+	"""
+	Write a function to find the longest common subsequence for the given three string sequence.
+	>>> lcs_of_three('AGGT12', '12TXAYB', '12XBA', 6, 7, 5)
+	2
+	>>> lcs_of_three('Reels', 'Reelsfor', 'ReelsforReels', 5, 8, 13)
+	5
+	>>> lcs_of_three('abcd1e2', 'bc12ea', 'bd1ea', 7, 6, 5)
+	3
+	"""
+
+ Code snippet: 
+ def lcs_of_three(X, Y, Z, m, n, o):
+    dp = [[[0]*(o+1) for _ in range(n+1)] for __ in range(m+1)]
+    for i in range(1, m+1):
+        for j in range(1, n+1):
+            for k in range(1, o+1):
+                if X[i-1] == Y[j-1] == Z[k-1]:
+                    dp[i][j][k] = dp[i-1][j-1][k-1] + 1
+                else:
+                    dp[i][j][k] = max(dp[i-1][j][k], dp[i][j-1][k], dp[i][j][k-1])
+    return dp[m][n][o]
+  
+ Functionally Correct: yes
+
+Example 2:
+ Problem Description: 
+
+def k_smallest_pairs(nums1, nums2, k):
+   """
+   Write a function to find k number of pairs which consist of one element from the first array and one element from the second array.
+   >>> k_smallest_pairs([1,3,7],[2,4,6],2)
+   [[1, 2], [1, 4]]
+   >>> k_smallest_pairs([1,3,7],[2,4,6],1)
+   [[1, 2]]
+   >>> k_smallest_pairs([1,3,7],[2,4,6],7)
+   [[1, 2], [1, 4], [3, 2], [1, 6], [3, 4], [3, 6], [7, 2]]
+   """
+
+ Code snippet: 
+ import heapq
+def k_smallest_pairs(nums1, nums2, k):
+    queue = [(nums1[i] + nums2[0], i, 0) for i in range(min(k, len(nums1)))]
+    heapq.heapify(queue)
+    pairs = []
+    while queue and len(pairs) < k:
+        _, i, j = heapq.heappop(queue)
+        pairs.append([nums1[i], nums2[j]])
+        if j + 1 < len(nums2):
+            heapq.heappush(queue, (nums1[i] + nums2[j + 1], i, j + 1))
+    return pairs
+  
+ Functionally Correct: yes
+
+Example 3:
+ Problem Description: 
+
+def super_seq(X, Y, m, n):
+	"""
+	Write a function to find the length of the shortest string that has both str1 and str2 as subsequences.
+	>>> super_seq("AGGTAB", "GXTXAYB", 6, 7)
+	9
+	>>> super_seq("feek", "eke", 4, 3)
+	5
+	>>> super_seq("PARRT", "RTA", 5, 3)
+	6
+	"""
+
+ Code snippet: 
+ def super_seq(X, Y, m, n):
+    dp = [list(range(n + 1))]
+    for i in range(1, m + 1):
+        prev, dp[i - 1][0] = i, i
+        for j in range(1, n + 1):
+            dp[i][j] = dp[i - 1][j - 1] if X[i - 1] == Y[j - 1] else min(dp[i - 1][j], dp[i][j - 1]) + 1
+    return dp[m][n]
+  
+ Functionally Correct: no
+
+Example 4:
+ Problem Description: 
+
+def calculate_polygons(startx, starty, endx, endy, radius):
+    """
+    Write a function to calculate a grid of hexagon coordinates where function returns a list of lists containing 6 tuples of x, y point coordinates.
+    >>> calculate_polygons(1,1, 4, 4, 3)
+    [[(-5.0, -4.196152422706632), (-5.0, -0.7320508075688767), (-2.0, 1.0), (1.0, -0.7320508075688767), (1.0, -4.196152422706632), (-2.0, -5.928203230275509), (-5.0, -4.196152422706632)], [(1.0, -4.196152422706632), (1.0, -0.7320508075688767), (4.0, 1.0), (7.0, -0.7320508075688767), (7.0, -4.196152422706632), (4.0, -5.928203230275509), (1.0, -4.196152422706632)], [(7.0, -4.196152422706632), (7.0, -0.7320508075688767), (10.0, 1.0), (13.0, -0.7320508075688767), (13.0, -4.196152422706632), (10.0, -5.928203230275509), (7.0, -4.196152422706632)], [(-2.0, 1.0000000000000004), (-2.0, 4.464101615137755), (1.0, 6.196152422706632), (4.0, 4.464101615137755), (4.0, 1.0000000000000004), (1.0, -0.7320508075688767), (-2.0, 1.0000000000000004)], [(4.0, 1.0000000000000004), (4.0, 4.464101615137755), (7.0, 6.196152422706632), (10.0, 4.464101615137755), (10.0, 1.0000000000000004), (7.0, -0.7320508075688767), (4.0, 1.0000000000000004)], [(-5.0, 6.196152422706632), (-5.0, 9.660254037844387), (-2.0, 11.392304845413264), (1.0, 9.660254037844387), (1.0, 6.196152422706632), (-2.0, 4.464101615137755), (-5.0, 6.196152422706632)], [(1.0, 6.196152422706632), (1.0, 9.660254037844387), (4.0, 11.392304845413264), (7.0, 9.660254037844387), (7.0, 6.196152422706632), (4.0, 4.464101615137755), (1.0, 6.196152422706632)], [(7.0, 6.196152422706632), (7.0, 9.660254037844387), (10.0, 11.392304845413264), (13.0, 9.660254037844387), (13.0, 6.196152422706632), (10.0, 4.464101615137755), (7.0, 6.196152422706632)], [(-2.0, 11.392304845413264), (-2.0, 14.85640646055102), (1.0, 16.588457268119896), (4.0, 14.85640646055102), (4.0, 11.392304845413264), (1.0, 9.660254037844387), (-2.0, 11.392304845413264)], [(4.0, 11.392304845413264), (4.0, 14.85640646055102), (7.0, 16.588457268119896), (10.0, 14.85640646055102), (10.0, 11.392304845413264), (7.0, 9.660254037844387), (4.0, 11.392304845413264)]]
+    >>> calculate_polygons(5,4,7,9,8)
+    [[(-11.0, -9.856406460551018), (-11.0, -0.6188021535170058), (-3.0, 4.0), (5.0, -0.6188021535170058), (5.0, -9.856406460551018), (-3.0, -14.475208614068023), (-11.0, -9.856406460551018)], [(5.0, -9.856406460551018), (5.0, -0.6188021535170058), (13.0, 4.0), (21.0, -0.6188021535170058), (21.0, -9.856406460551018), (13.0, -14.475208614068023), (5.0, -9.856406460551018)], [(21.0, -9.856406460551018), (21.0, -0.6188021535170058), (29.0, 4.0), (37.0, -0.6188021535170058), (37.0, -9.856406460551018), (29.0, -14.475208614068023), (21.0, -9.856406460551018)], [(-3.0, 4.0), (-3.0, 13.237604307034012), (5.0, 17.856406460551018), (13.0, 13.237604307034012), (13.0, 4.0), (5.0, -0.6188021535170058), (-3.0, 4.0)], [(13.0, 4.0), (13.0, 13.237604307034012), (21.0, 17.856406460551018), (29.0, 13.237604307034012), (29.0, 4.0), (21.0, -0.6188021535170058), (13.0, 4.0)], [(-11.0, 17.856406460551018), (-11.0, 27.09401076758503), (-3.0, 31.712812921102035), (5.0, 27.09401076758503), (5.0, 17.856406460551018), (-3.0, 13.237604307034012), (-11.0, 17.856406460551018)], [(5.0, 17.856406460551018), (5.0, 27.09401076758503), (13.0, 31.712812921102035), (21.0, 27.09401076758503), (21.0, 17.856406460551018), (13.0, 13.237604307034012), (5.0, 17.856406460551018)], [(21.0, 17.856406460551018), (21.0, 27.09401076758503), (29.0, 31.712812921102035), (37.0, 27.09401076758503), (37.0, 17.856406460551018), (29.0, 13.237604307034012), (21.0, 17.856406460551018)], [(-3.0, 31.712812921102035), (-3.0, 40.95041722813605), (5.0, 45.569219381653056), (13.0, 40.95041722813605), (13.0, 31.712812921102035), (5.0, 27.09401076758503), (-3.0, 31.712812921102035)], [(13.0, 31.712812921102035), (13.0, 40.95041722813605), (21.0, 45.569219381653056), (29.0, 40.95041722813605), (29.0, 31.712812921102035), (21.0, 27.09401076758503), (13.0, 31.712812921102035)]]
+    >>> calculate_polygons(9,6,4,3,2)
+    [[(5.0, 2.5358983848622456), (5.0, 4.8452994616207485), (7.0, 6.0), (9.0, 4.8452994616207485), (9.0, 2.5358983848622456), (7.0, 1.3811978464829942), (5.0, 2.5358983848622456)], [(7.0, 6.0), (7.0, 8.309401076758503), (9.0, 9.464101615137753), (11.0, 8.309401076758503), (11.0, 6.0), (9.0, 4.8452994616207485), (7.0, 6.0)]]
+    """
+
+ Code snippet: 
+ import math
+def calculate_polygons(startx, starty, endx, endy, radius):
+    hex_height = radius * 1.7320508075688772
+    hex_width = 2 * radius
+    polygons = []
+    for y in range(starty, endy + 1):
+        for x in range(startx, endx + 1):
+            x_offset = hex_width / 2 if y % 2 else 0
+            vertices = [(x * hex_width + x_offset + radius * math.cos(i * math.pi / 3), y * hex_height + radius * math.sin(i * math.pi / 3)) for i in range(6)]
+            polygons.append(vertices + [vertices[0]])
+    return polygons
+  
+ Functionally Correct: no
+
+
+
+Evaluate the following code snippet.
+
+Problem Description: 
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+import java.math.*;
+
+
+class MinCost {
+    /**
+     * * Write a function to find the minimum cost path to reach (m, n) from (0, 0) for the given cost matrix cost[][] and a position (m, n) in cost[][].
+     *
+     * > minCost([[1, 2, 3], [4, 8, 2], [1, 5, 3]], 2, 2)
+     * 8
+     * > minCost([[2, 3, 4], [5, 9, 3], [2, 6, 4]], 2, 2)
+     * 12
+     * > minCost([[3, 4, 5], [6, 10, 4], [3, 7, 5]], 2, 2)
+     * 16
+     */
+    public static int minCost(List<List<Integer>> cost, int m, int n) {
+
+
+Code Snippet: 
+int[][] dp = new int[m + 1][n + 1];
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) + cost.get(i).get(j);
+            }
+        }
+        return dp[m][n];
+    }
+}
+
+Functionally Correct:
+
+
+

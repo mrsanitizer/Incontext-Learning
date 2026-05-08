@@ -1,0 +1,11 @@
+numpy==2.4.1
+pandas==2.2.3
+scikit-learn==1.7.0
+scipy==1.15.2
+torch==2.7.1
+transformers==5.7.0
+accelerate==1.13.0
+sentencepiece==0.2.1
+safetensors==0.7.0
+# Optional: only if your environment supports bitsandbytes on your OS/Python/CUDA
+bitsandbytes==0.49.2

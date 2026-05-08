@@ -1,0 +1,21 @@
+{
+  "input_train_file": "../../data/mbpp-codestral-22b.jsonl",
+  "input_test_file": "../../data/heval-codellama-7b.jsonl",
+  "output_dir": "../output/icl/heval-codellama-qwen3b-16bit-codeBERT/balanced",
+
+  "k_values": [0,1,2],  
+  "p_values": [1, 0.5, 0.0],
+  "balanced": true,
+  "filter": true,
+
+  "model_name": "Qwen/Qwen2.5-Coder-3B-Instruct",
+  "torch_dtype": "float16",
+  "use_4bit": false,
+  "use_cpu_offload": true,
+  "max_gpu_memory_gb": 7,
+  "max_prompt_tokens": 8000,
+
+  "encoder_name": "microsoft/codebert-base",
+  "embedding_cache_dir": "../embeddings_cache",
+  "log_prompts": true
+}

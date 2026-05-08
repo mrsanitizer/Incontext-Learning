@@ -1,0 +1,13 @@
+useless
+baselines
+fewshot-cqe/Learning_Guide
+fewshot-cqe/__pycache__
+fewshot-cqe/output/qwen
+fewshot-cqe/scripts/*
+incontext_learning.pdf
+!fewshot-cqe/scripts/token_report.py
+!fewshot-cqe/scripts/jsonl_to_csv.py
+fewshot-cqe/output/icl/heval-codellama-qwen3b-16bit-codeBERT/balanced/correct_instances.jsonl
+fewshot-cqe/output/icl/heval-codellama-qwen3b-16bit-codeBERT/balanced/incorrect_instances.jsonl
+fewshot-cqe/output/icl/cut_mbjp-codellama-qwen3b-16bit-codeBERT/balanced/correct_instances.jsonl
+fewshot-cqe/output/icl/cut_mbjp-codellama-qwen3b-16bit-codeBERT/balanced/incorrect_instances.jsonl
